@@ -261,7 +261,9 @@ export function setTfxMarketplaceArguments(tfx: ToolRunner, setServiceUrl = true
         galleryEndpoint = getMarketplaceEndpointDetails("connectedServiceName");
         tfx.argIf(setServiceUrl, ["--service-url", galleryEndpoint.url]);
         tfx.arg(["--auth-type", "pat"]);
-        tfx.arg(["--token", galleryEndpoint.password]);
+
+        const token = tl.getVariable("MARKETPLACE_TOKEN") || galleryEndpoint.password;
+        tfx.arg(["--token", token]);
     } else {
         galleryEndpoint = getMarketplaceEndpointDetails("connectedServiceNameTFS");
         tfx.argIf(setServiceUrl, ["--service-url", galleryEndpoint.url]);
